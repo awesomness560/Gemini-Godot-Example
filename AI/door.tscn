@@ -1,17 +1,62 @@
-[gd_scene load_steps=4 format=3 uid="uid://vn42mjulfuat"]
+[gd_scene load_steps=11 format=3 uid="uid://vn42mjulfuat"]
 
 [ext_resource type="Script" uid="uid://vfqv5p3bf3d2" path="res://AI/door.gd" id="1_xvp2m"]
+[ext_resource type="Texture2D" uid="uid://dtwcpunlsvevg" path="res://Assets/animated_door_1_48x48.png" id="2_7qws0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uib7t"]
-size = Vector2(182, 308)
+size = Vector2(52, 93)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvp2m"]
-size = Vector2(448, 484)
+size = Vector2(156, 166)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lquwl"]
+atlas = ExtResource("2_7qws0")
+region = Rect2(0, 32, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mycd"]
+atlas = ExtResource("2_7qws0")
+region = Rect2(48, 32, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_272bh"]
+atlas = ExtResource("2_7qws0")
+region = Rect2(96, 32, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vw27"]
+atlas = ExtResource("2_7qws0")
+region = Rect2(144, 32, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kek77"]
+atlas = ExtResource("2_7qws0")
+region = Rect2(192, 32, 48, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lhnws"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lquwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mycd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_272bh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vw27")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kek77")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Door" type="StaticBody2D"]
 script = ExtResource("1_xvp2m")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 offset_left = -90.0
 offset_top = -153.0
 offset_right = 90.0
@@ -19,6 +64,7 @@ offset_bottom = 153.0
 color = Color(0.815107, 0.348491, 1.15514e-06, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -3.5)
 shape = SubResource("RectangleShape2D_uib7t")
 
 [node name="Interact" type="Area2D" parent="."]
@@ -29,7 +75,6 @@ shape = SubResource("RectangleShape2D_xvp2m")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
-visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -60,6 +105,11 @@ wrap_mode = 1
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="DoorSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -4)
+scale = Vector2(1.29688, 1.53125)
+sprite_frames = SubResource("SpriteFrames_lhnws")
 
 [connection signal="body_entered" from="Interact" to="." method="_on_interact_body_entered"]
 [connection signal="body_exited" from="Interact" to="." method="_on_interact_body_exited"]

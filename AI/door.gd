@@ -12,6 +12,8 @@ enum DIFFICULTY {
 @onready var panelContainer : PanelContainer = $CanvasLayer/PanelContainer
 @onready var botTextEdit : TextEdit = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/BotTextEdit
 @onready var lineEdit : LineEdit = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LineEdit
+@onready var doorSprite : AnimatedSprite2D = $DoorSprite
+@onready var collisionShape : CollisionShape2D = $CollisionShape2D
 
 const API_KEY = "AIzaSyBl2RKSagiZQTUoDBaucQj6iq7Ptn9lCQs"
 
@@ -58,12 +60,14 @@ var httpRequest : HTTPRequest = HTTPRequest.new()
 var doorOpen : bool : 
 	set (value):
 		if value == true:
-			queue_free()
+			#queue_free()
+			panelContainer.hide()
+			doorSprite.play("default")
+			collisionShape.disabled = true
 		doorOpen = value
 
 func _ready() -> void:
 	add_child(httpRequest)
-	panelContainer.hide()
 	
 	lineEdit.text_submitted.connect(_on_line_edit_text_submitted)
 	httpRequest.request_completed.connect(_on_request_completed)
@@ -107,6 +111,8 @@ func _on_request_completed(result, responseCode, headers, body):
 		var newStr : String = response.candidates[0].content.parts[0].text
 		
 		var parseString = extract_between(newStr, "```json", "```")
+		if parseString == "":
+			parseString = extract_between(newStr, "{", "}")
 		
 		var jsonNext := JSON.new()
 		var error = jsonNext.parse(parseString)
@@ -185,9 +191,9 @@ func extract_between(text: String, start_marker: String, end_marker: String) -> 
 	return text.substr(extract_start, end_index - extract_start)
 
 
-func _on_interact_body_entered(body: Node2D) -> void:
-	panelContainer.show()
-
-
-func _on_interact_body_exited(body: Node2D) -> void:
-	panelContainer.hide()
+#func _on_interact_body_entered(body: Node2D) -> void:
+	#panelContainer.show()
+#
+#
+#func _on_interact_body_exited(body: Node2D) -> void:
+	#panelContainer.hide()
