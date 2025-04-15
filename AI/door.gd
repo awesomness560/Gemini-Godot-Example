@@ -15,7 +15,7 @@ enum DIFFICULTY {
 @onready var doorSprite : AnimatedSprite2D = $DoorSprite
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
 
-const API_KEY = "AIzaSyBl2RKSagiZQTUoDBaucQj6iq7Ptn9lCQs"
+const API_KEY = "Put your key here"
 
 const PROMPT = """You are a sentient, magical door in an escape room. You are clever, dramatic, and resistant to being opened. Your personality depends on how difficult you are to persuade:
 
@@ -59,26 +59,18 @@ var conversations = []
 var httpRequest : HTTPRequest = HTTPRequest.new()
 var doorOpen : bool : 
 	set (value):
-		if value == true:
-			panelContainer.hide() #TODO
-			doorSprite.play("default") #TODO
-			collisionShape.disabled = true #TODO
+		#TODO: 4 Lines below here
 		doorOpen = value
 
 func _ready() -> void:
-	add_child(httpRequest) #TODO
+	#TODO
 	
 	lineEdit.text_submitted.connect(_on_line_edit_text_submitted) #TODO
 	httpRequest.request_completed.connect(_on_request_completed)
 	url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=%s"%API_KEY
 	
-	var diff : String #TODO
-	if difficulty == DIFFICULTY.EASY: #TODO
-		diff = "Easy" #TODO
-	elif difficulty == DIFFICULTY.MEDIUM: #TODO
-		diff = "Medium" #TODO
-	elif difficulty == DIFFICULTY.HARD: #TODO
-		diff = "Hard" #TODO
+	#TODO
+	#TODO: 6 Lines of code below here
 	
 	conversations.append({"user": str(PROMPT + diff), "model":"Understood."})
 	
@@ -126,7 +118,7 @@ func _send_request(chat : String):
 			]
 	})
 	
-	var error = httpRequest.request(url, ["Content-Type: application/json"], HTTPClient.METHOD_POST, body) #TODO
+	#TODO
 	print(body)
 	if error != OK:
 		push_error("requested but error happen code = %s"%error)
@@ -158,11 +150,11 @@ func _on_request_completed(result, responseCode, headers, body):
 			parseString = extract_between(newStr, "{", "}")
 		
 		var jsonNext := JSON.new()
-		var error = jsonNext.parse(parseString)
+		#TODO
 		print(error)
 		var aiResponse = jsonNext.get_data()
-		botTextEdit.text = aiResponse.response
-		doorOpen = aiResponse.door_open
+		#TODO
+		#TODO
 		
 		conversations.append({"user": lineEdit.text, "model":aiResponse.response})
 
