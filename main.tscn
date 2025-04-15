@@ -26,9 +26,16 @@ fill_to = Vector2(0.520642, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5vw27"]
 shader = ExtResource("5_7mycd")
-shader_parameter/is_card = true
-shader_parameter/iTime = 0.0
-shader_parameter/iChannelResolution1 = Vector2(0, 0)
+shader_parameter/anim_speed = 0.0
+shader_parameter/star_brightness = 0.011
+shader_parameter/dust = 0.125
+shader_parameter/dist_fade = 0.35
+shader_parameter/pixelation = 1000.0
+shader_parameter/quantization_levels = 256
+shader_parameter/dust_color = Color(0, 0, 0, 1)
+shader_parameter/saturation = 1.0
+shader_parameter/layers = 4.5
+shader_parameter/iterations = 10
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kek77"]
 size = Vector2(553.75, 93)
@@ -53,7 +60,6 @@ position = Vector2(-24, -379)
 environment = SubResource("Environment_h2yge")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="WorldEnvironment"]
-visible = false
 color = Color(0.0885599, 0.0885599, 0.0885599, 1)
 blend_mode = 2
 

@@ -60,71 +60,31 @@ var httpRequest : HTTPRequest = HTTPRequest.new()
 var doorOpen : bool : 
 	set (value):
 		if value == true:
-			#queue_free()
-			panelContainer.hide()
-			doorSprite.play("default")
-			collisionShape.disabled = true
+			panelContainer.hide() #TODO
+			doorSprite.play("default") #TODO
+			collisionShape.disabled = true #TODO
 		doorOpen = value
 
 func _ready() -> void:
-	add_child(httpRequest)
+	add_child(httpRequest) #TODO
 	
-	lineEdit.text_submitted.connect(_on_line_edit_text_submitted)
+	lineEdit.text_submitted.connect(_on_line_edit_text_submitted) #TODO
 	httpRequest.request_completed.connect(_on_request_completed)
 	url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=%s"%API_KEY
 	
-	var diff : String 
-	if difficulty == DIFFICULTY.EASY:
-		diff = "Easy"
-	elif difficulty == DIFFICULTY.MEDIUM:
-		diff = "Medium"
-	elif difficulty == DIFFICULTY.HARD:
-		diff = "Hard"
+	var diff : String #TODO
+	if difficulty == DIFFICULTY.EASY: #TODO
+		diff = "Easy" #TODO
+	elif difficulty == DIFFICULTY.MEDIUM: #TODO
+		diff = "Medium" #TODO
+	elif difficulty == DIFFICULTY.HARD: #TODO
+		diff = "Hard" #TODO
 	
 	conversations.append({"user": str(PROMPT + diff), "model":"Understood."})
 	
 func _on_line_edit_text_submitted(new_text: String) -> void:
 	lineEdit.editable = false
 	_send_request(new_text)
-	pass # Replace with function body.
-	
-func _on_request_completed(result, responseCode, headers, body):
-	lineEdit.editable = true
-	var json := JSON.new()
-	json.parse(body.get_string_from_utf8())
-	var response = json.get_data()
-	
-	if response == null:
-		botTextEdit.text = "No Response"
-	
-	if response.has("error"):
-		botTextEdit.text = "ERROR: " + str(response.error)
-	
-	if !response.has("candidates"):
-		botTextEdit.text = "BLOCKED"
-	
-	print("RESPONSE")
-	print(response)
-	if response.candidates[0].finishReason != "STOP":
-		botTextEdit.text = "SAFETY"
-	else:
-		var newStr : String = response.candidates[0].content.parts[0].text
-		
-		var parseString = extract_between(newStr, "```json", "```")
-		if parseString == "":
-			parseString = extract_between(newStr, "{", "}")
-		
-		var jsonNext := JSON.new()
-		var error = jsonNext.parse(parseString)
-		print(error)
-		var aiResponse = jsonNext.get_data()
-		botTextEdit.text = aiResponse.response
-		doorOpen = aiResponse.door_open
-		
-		conversations.append({"user": lineEdit.text, "model":aiResponse.response})
-		
-		#botTextEdit.text = newStr
-		#print(newStr)
  
 func _send_request(chat : String):
 	var contents_value = []
@@ -166,10 +126,45 @@ func _send_request(chat : String):
 			]
 	})
 	
-	var error = httpRequest.request(url, ["Content-Type: application/json"], HTTPClient.METHOD_POST, body)
+	var error = httpRequest.request(url, ["Content-Type: application/json"], HTTPClient.METHOD_POST, body) #TODO
 	print(body)
 	if error != OK:
 		push_error("requested but error happen code = %s"%error)
+
+func _on_request_completed(result, responseCode, headers, body):
+	lineEdit.editable = true
+	var json := JSON.new()
+	json.parse(body.get_string_from_utf8())
+	var response = json.get_data()
+	
+	if response == null:
+		botTextEdit.text = "No Response"
+	
+	if response.has("error"):
+		botTextEdit.text = "ERROR: " + str(response.error)
+	
+	if !response.has("candidates"):
+		botTextEdit.text = "BLOCKED"
+	
+	print("RESPONSE")
+	print(response)
+	if response.candidates[0].finishReason != "STOP":
+		botTextEdit.text = "SAFETY"
+	else:
+		var newStr : String = response.candidates[0].content.parts[0].text
+		
+		var parseString = extract_between(newStr, "```json", "```")
+		if parseString == "":
+			parseString = extract_between(newStr, "{", "}")
+		
+		var jsonNext := JSON.new()
+		var error = jsonNext.parse(parseString)
+		print(error)
+		var aiResponse = jsonNext.get_data()
+		botTextEdit.text = aiResponse.response
+		doorOpen = aiResponse.door_open
+		
+		conversations.append({"user": lineEdit.text, "model":aiResponse.response})
 
 func extract_between(text: String, start_marker: String, end_marker: String) -> String:
 	# Find the index of the start marker.
@@ -189,11 +184,3 @@ func extract_between(text: String, start_marker: String, end_marker: String) -> 
 	
 	# Extract and return the substring between the markers.
 	return text.substr(extract_start, end_index - extract_start)
-
-
-#func _on_interact_body_entered(body: Node2D) -> void:
-	#panelContainer.show()
-#
-#
-#func _on_interact_body_exited(body: Node2D) -> void:
-	#panelContainer.hide()

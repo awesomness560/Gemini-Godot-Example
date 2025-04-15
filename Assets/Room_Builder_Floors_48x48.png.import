@@ -3,19 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cxsxsvdsiwi1a"
-path="res://.godot/imported/Room_Builder_Floors_48x48.png-604cdfd3b8241d70a6b2527538693542.ctex"
+path.s3tc="res://.godot/imported/Room_Builder_Floors_48x48.png-604cdfd3b8241d70a6b2527538693542.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Room_Builder_Floors_48x48.png"
-dest_files=["res://.godot/imported/Room_Builder_Floors_48x48.png-604cdfd3b8241d70a6b2527538693542.ctex"]
+dest_files=["res://.godot/imported/Room_Builder_Floors_48x48.png-604cdfd3b8241d70a6b2527538693542.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
